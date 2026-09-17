@@ -39,33 +39,35 @@ export default async function TeamsPage() {
   // =========================================================
 
   const { data: competitions, error: competitionsError } =
-    await supabase
-      .from("competitions")
-      .select(`
-        id,
-        name,
-        name_ar,
-        description,
-        description_ar
-      `)
-      .order("start_date");
+  await supabase
+    .from("competitions")
+    .select(`
+      id,
+      name,
+      name_ar,
+      description,
+      description_ar
+    `)
+    .eq("id", "812b117a-df69-40ce-b4b2-62ae9ca3e8cf")
+    .order("start_date");
 
   // =========================================================
   // CLASSES
   // =========================================================
 
   const { data: teams, error: teamsError } = await supabase
-    .from("teams")
-    .select(`
-      id,
-      competition_id,
-      grade,
-      section,
-      name,
-      logo_url
-    `)
-    .order("grade")
-    .order("section");
+  .from("teams")
+  .select(`
+    id,
+    competition_id,
+    grade,
+    section,
+    name,
+    logo_url
+  `)
+  .eq("competition_id", "812b117a-df69-40ce-b4b2-62ae9ca3e8cf")
+  .order("grade")
+  .order("section");
 
   if (competitionsError) {
     console.error("Competitions error:", competitionsError);

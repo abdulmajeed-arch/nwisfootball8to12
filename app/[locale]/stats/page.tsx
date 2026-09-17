@@ -76,56 +76,75 @@ export default async function StatsPage() {
    * Get classes
    */
   const { data: teams, error: teamsError } = await supabase
-    .from("teams")
-    .select(`
-      id,
-      grade,
-      section,
-      name
-    `)
-    .order("grade")
-    .order("section");
+  .from("teams")
+  .select(`
+    id,
+    grade,
+    section,
+    name
+  `)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("grade")
+  .order("section");
 
   /*
    * Get finished matches
    */
   const { data: matches, error: matchesError } = await supabase
-    .from("matches")
-    .select(`
-      id,
-      home_team_id,
-      away_team_id,
-      home_score,
-      away_score,
-      status
-    `)
-    .eq("status", "finished");
+  .from("matches")
+  .select(`
+    id,
+    home_team_id,
+    away_team_id,
+    home_score,
+    away_score,
+    status
+  `)
+  .eq("competition_id", "812b117a-df69-40ce-b4b2-62ae9ca3e8cf")
+  .eq("status", "finished");
 
   /*
    * Get players
    */
   const { data: players, error: playersError } = await supabase
-    .from("players")
-    .select(`
-      id,
-      full_name,
-      team_id,
-      position,
-      photo_url
-    `)
-    .order("full_name");
+  .from("players")
+  .select(`
+    id,
+    full_name,
+    team_id,
+    position,
+    photo_url,
+    team:teams!inner (
+      competition_id
+    )
+  `)
+  .eq(
+    "team.competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("full_name");
 
   /*
    * Get match events
    */
   const { data: events, error: eventsError } = await supabase
-    .from("match_events")
-    .select(`
-      id,
-      event_type,
-      player_id,
-      assist_player_id
-    `);
+  .from("match_events")
+  .select(`
+    id,
+    event_type,
+    player_id,
+    assist_player_id,
+    match:matches!inner (
+      competition_id
+    )
+  `)
+  .eq(
+    "match.competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  );
 
   if (teamsError) {
     console.error("Stats teams error:", teamsError);

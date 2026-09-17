@@ -50,38 +50,53 @@ export default async function HighlightsPage() {
     { data: teams, error: teamsError },
   ] = await Promise.all([
     supabase
-      .from("highlights")
-      .select(`
-        id,
-        match_id,
-        title,
-        description,
-        video_url,
-        thumbnail_url,
-        created_at
-      `)
-      .order("created_at", { ascending: false }),
+  .from("highlights")
+  .select(`
+    id,
+    match_id,
+    title,
+    description,
+    video_url,
+    thumbnail_url,
+    created_at,
+    match:matches!inner (
+      competition_id
+    )
+  `)
+  .eq(
+    "match.competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("created_at", { ascending: false }),
 
     supabase
-      .from("matches")
-      .select(`
-        id,
-        home_team_id,
-        away_team_id,
-        match_date,
-        status,
-        home_score,
-        away_score
-      `),
+  .from("matches")
+  .select(`
+    id,
+    home_team_id,
+    away_team_id,
+    match_date,
+    status,
+    home_score,
+    away_score
+  `)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  ),
 
     supabase
-      .from("teams")
-      .select(`
-        id,
-        grade,
-        section,
-        name
-      `),
+  .from("teams")
+  .select(`
+    id,
+    grade,
+    section,
+    name
+  `)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  ),
   ]);
 
   if (highlightsError || matchesError || teamsError) {

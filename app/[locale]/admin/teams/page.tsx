@@ -42,17 +42,21 @@ export default async function AdminTeamsPage({
   const t = await getTranslations("adminTeams");
 
   const { data: teams, error: teamsError } = await supabase
-    .from("teams")
-    .select(`
-      id,
-      competition_id,
-      grade,
-      section,
-      name,
-      logo_url
-    `)
-    .order("grade")
-    .order("section");
+  .from("teams")
+  .select(`
+    id,
+    competition_id,
+    grade,
+    section,
+    name,
+    logo_url
+  `)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("grade")
+  .order("section");
 
   if (teamsError) {
     console.error("Teams error:", teamsError);
@@ -77,9 +81,11 @@ export default async function AdminTeamsPage({
 
   const isArabic = locale === "ar";
 
-  const grade5Count = typedTeams.filter((team) => team.grade === 5).length;
-  const grade6Count = typedTeams.filter((team) => team.grade === 6).length;
-  const grade7Count = typedTeams.filter((team) => team.grade === 7).length;
+  const grade8Count = typedTeams.filter((team) => team.grade === 8).length;
+const grade9Count = typedTeams.filter((team) => team.grade === 9).length;
+const grade10Count = typedTeams.filter((team) => team.grade === 10).length;
+const grade11Count = typedTeams.filter((team) => team.grade === 11).length;
+const grade12Count = typedTeams.filter((team) => team.grade === 12).length;
 
   return (
     <main className="min-h-screen bg-white text-gray-950 dark:bg-gray-950 dark:text-white">
@@ -140,7 +146,7 @@ export default async function AdminTeamsPage({
           </div>
 
           {/* Overview Stats */}
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             <div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
@@ -159,59 +165,90 @@ export default async function AdminTeamsPage({
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400">
-                  <Users className="h-5 w-5" />
-                </div>
+{/* Grade 8 */}
+<div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
+  <div className="flex items-center gap-3">
+    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400">
+      <Users className="h-5 w-5" />
+    </div>
 
-                <div>
-                  <p className="text-2xl font-extrabold">
-                    {grade5Count}
-                  </p>
+    <div>
+      <p className="text-2xl font-extrabold">{grade8Count}</p>
 
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {isArabic ? "الصف الخامس" : "Grade 5"}
-                  </p>
-                </div>
-              </div>
-            </div>
+      <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        {isArabic ? "الصف الثامن" : "Grade 8"}
+      </p>
+    </div>
+  </div>
+</div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-400">
-                  <Users className="h-5 w-5" />
-                </div>
+{/* Grade 9 */}
+<div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
+  <div className="flex items-center gap-3">
+    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-400">
+      <Users className="h-5 w-5" />
+    </div>
 
-                <div>
-                  <p className="text-2xl font-extrabold">
-                    {grade6Count}
-                  </p>
+    <div>
+      <p className="text-2xl font-extrabold">{grade9Count}</p>
 
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {isArabic ? "الصف السادس" : "Grade 6"}
-                  </p>
-                </div>
-              </div>
-            </div>
+      <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        {isArabic ? "الصف التاسع" : "Grade 9"}
+      </p>
+    </div>
+  </div>
+</div>
 
-            <div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400">
-                  <Users className="h-5 w-5" />
-                </div>
+{/* Grade 10 */}
+<div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
+  <div className="flex items-center gap-3">
+    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
+      <Users className="h-5 w-5" />
+    </div>
 
-                <div>
-                  <p className="text-2xl font-extrabold">
-                    {grade7Count}
-                  </p>
+    <div>
+      <p className="text-2xl font-extrabold">{grade10Count}</p>
 
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {isArabic ? "الصف السابع" : "Grade 7"}
-                  </p>
-                </div>
-              </div>
-            </div>
+      <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        {isArabic ? "الصف العاشر" : "Grade 10"}
+      </p>
+    </div>
+  </div>
+</div>
+
+{/* Grade 11 */}
+<div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-900 dark:bg-gray-900/70">
+  <div className="flex items-center gap-3">
+    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400">
+      <Users className="h-5 w-5" />
+    </div>
+
+    <div>
+      <p className="text-2xl font-extrabold">{grade11Count}</p>
+
+      <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        {isArabic ? "الصف الحادي عشر" : "Grade 11"}
+      </p>
+    </div>
+  </div>
+</div>
+
+{/* Grade 12 */}
+<div className="rounded-2xl border border-gray-200 bg-white/80 p-5 backdrop-blur dark:border-gray-800 dark:bg-gray-900/70">
+  <div className="flex items-center gap-3">
+    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-400">
+      <Users className="h-5 w-5" />
+    </div>
+
+    <div>
+      <p className="text-2xl font-extrabold">{grade12Count}</p>
+
+      <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        {isArabic ? "الصف الثاني عشر" : "Grade 12"}
+      </p>
+    </div>
+  </div>
+</div>
           </div>
         </div>
       </section>

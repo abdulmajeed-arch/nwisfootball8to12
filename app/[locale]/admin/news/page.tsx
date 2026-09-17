@@ -31,21 +31,26 @@ export default async function AdminNewsPage({
   const supabase = await createClient();
 
   const { data: news, error } = await supabase
-    .from("news")
-    .select(`
-      id,
-      title,
-      title_ar,
-      excerpt,
-      excerpt_ar,
-      content,
-      content_ar,
-      image_url,
-      published,
-      published_at,
-      created_at
-    `)
-    .order("created_at", { ascending: false });
+  .from("news")
+  .select(`
+    id,
+    title,
+    title_ar,
+    excerpt,
+    excerpt_ar,
+    content,
+    content_ar,
+    image_url,
+    published,
+    published_at,
+    created_at,
+    competition_id
+  `)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("created_at", { ascending: false });
 
   if (error) {
     return (

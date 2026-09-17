@@ -22,7 +22,7 @@ export default async function PlayersPage({
 
   const isArabic = locale === "ar";
 
-  const { data: players, error } = await supabase
+    const { data: players, error } = await supabase
     .from("players")
     .select(`
       id,
@@ -30,13 +30,18 @@ export default async function PlayersPage({
       position,
       nationality,
       photo_url,
-      team:teams (
+      team:teams!inner (
         id,
         name,
         grade,
-        section
+        section,
+        competition_id
       )
     `)
+    .eq(
+      "team.competition_id",
+      "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+    )
     .order("full_name");
 
   if (error) {

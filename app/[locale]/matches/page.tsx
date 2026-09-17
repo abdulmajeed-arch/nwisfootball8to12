@@ -37,26 +37,34 @@ export default async function MatchesPage() {
   const supabase = await createClient();
 
   const { data: matches, error: matchesError } = await supabase
-    .from("matches")
-    .select(`
-      id,
-      home_team_id,
-      away_team_id,
-      match_date,
-      status,
-      home_score,
-      away_score
-    `)
-    .order("match_date", { ascending: true });
+  .from("matches")
+  .select(`
+    id,
+    home_team_id,
+    away_team_id,
+    match_date,
+    status,
+    home_score,
+    away_score
+  `)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("match_date", { ascending: true });
 
   const { data: teams, error: teamsError } = await supabase
-    .from("teams")
-    .select(`
-      id,
-      grade,
-      section,
-      name
-    `);
+  .from("teams")
+  .select(`
+    id,
+    grade,
+    section,
+    name
+  `)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  );
 
   if (matchesError) {
     console.error("Matches error:", matchesError);

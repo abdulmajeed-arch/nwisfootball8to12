@@ -29,12 +29,16 @@ export default async function NewsPage({
   const supabase = await createClient();
 
   const { data: news, error } = await supabase
-    .from("news")
-    .select(
-      "id, title, title_ar, excerpt, excerpt_ar, image_url, published_at"
-    )
-    .eq("published", true)
-    .order("published_at", { ascending: false });
+  .from("news")
+  .select(
+    "id, title, title_ar, excerpt, excerpt_ar, image_url, published_at, competition_id"
+  )
+  .eq("published", true)
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("published_at", { ascending: false });
 
   if (error) {
     console.error("NEWS LOAD ERROR:", error);

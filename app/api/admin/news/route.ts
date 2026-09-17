@@ -56,18 +56,19 @@ export async function POST(request: Request) {
     }
 
     const { error: insertError } = await supabase
-      .from("news")
-      .insert({
-        title: title.trim(),
-        title_ar: title_ar.trim(),
-        excerpt: excerpt?.trim() || null,
-        excerpt_ar: excerpt_ar?.trim() || null,
-        content: content.trim(),
-        content_ar: content_ar.trim(),
-        image_url: image_url?.trim() || null,
-        published: Boolean(published),
-        published_at: published ? new Date().toISOString() : null,
-      });
+  .from("news")
+  .insert({
+    title: title.trim(),
+    title_ar: title_ar.trim(),
+    excerpt: excerpt?.trim() || null,
+    excerpt_ar: excerpt_ar?.trim() || null,
+    content: content.trim(),
+    content_ar: content_ar.trim(),
+    image_url: image_url?.trim() || null,
+    published: Boolean(published),
+    published_at: published ? new Date().toISOString() : null,
+    competition_id: "812b117a-df69-40ce-b4b2-62ae9ca3e8cf",
+  });
 
     if (insertError) {
       console.error(insertError);

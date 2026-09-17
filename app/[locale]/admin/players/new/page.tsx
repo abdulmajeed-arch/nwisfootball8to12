@@ -17,10 +17,14 @@ export default async function NewPlayerPage({
   const t = await getTranslations("adminPlayers");
 
   const { data: teams, error } = await supabase
-    .from("teams")
-    .select("id, name, grade, section")
-    .order("grade")
-    .order("section");
+  .from("teams")
+  .select("id, name, grade, section")
+  .eq(
+    "competition_id",
+    "812b117a-df69-40ce-b4b2-62ae9ca3e8cf"
+  )
+  .order("grade")
+  .order("section");
 
   if (error) {
     console.error("Teams error:", error);
